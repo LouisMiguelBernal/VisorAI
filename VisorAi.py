@@ -204,6 +204,31 @@ with detect:
 
                 # Detect button under text input
                 detect_clicked = st.button("🔍 Detect Road Sign", key=f"detect_{index}")
+                
+                # Show dictionary below detect button
+                with st.expander("📖 View Road Sign Dictionary"):
+                    st.markdown("""
+                        *Valid Road Sign Names (used for answer checking):*
+                        - Bicycle Lane
+                        - Broken and Solid Yellow Lines
+                        - Bus Lane
+                        - Cats Eye
+                        - Continuity Lane
+                        - Double Solid Yellow or White Line
+                        - Holding Lane
+                        - Loading and Unloading Zone
+                        - Motorcycle Lane
+                        - No Loading and Unloading Curb
+                        - No Parking Curb
+                        - Parking Bay
+                        - Pavement Arrow
+                        - Pedestrian Lane
+                        - Railroad Crossing
+                        - Rumble Strips
+                        - Single Solid Lane
+                        - Speed Limit
+                        - Transition Line
+                        """)
 
             if detect_clicked and not st.session_state.submitted:
                 result_img, label, new_detections = detect_and_visualize(current_image)
