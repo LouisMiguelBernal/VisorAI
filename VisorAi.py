@@ -225,7 +225,7 @@ with detect:
                         - Pedestrian Lane
                         - Railroad Crossing
                         - Rumble Strips
-                        - Single Solid Lane
+                        - Single Solid Line
                         - Speed Limit
                         - Transition Line
                         """)
