@@ -211,7 +211,7 @@ with detect:
                         *Valid Road Sign Names (used for answer checking):*
                         - Bicycle Lane
                         - Broken and Solid Yellow Lines
-                        - Bus Lane
+                        - Bus L
                         - Cats Eye
                         - Continuity Lane
                         - Double Solid Yellow or White Line
@@ -225,7 +225,7 @@ with detect:
                         - Pedestrian Lane
                         - Railroad Crossing
                         - Rumble Strips
-                        - Single Solid Line
+                        - Single Solid Lane
                         - Speed Limit
                         - Transition Line
                         """)
@@ -289,6 +289,17 @@ with detect:
         
 with model_info:
     st.title('Model Benchmark')
+
+    # Subtitle for the image
+    st.subheader('Precision-Confidence Curve for Road Marking Detection')
+    # Load and display the image
+    image = Image.open('assets/pcc.png')
+    st.image(image, caption='Precision vs Confidence for each road marking class', width=600, use_container_width=False)
+
+    st.subheader('Training Results')
+    # Load and display the image
+    image = Image.open('assets/pc.png')
+    st.image(image, caption='YOLOV11 Results', width=600, use_container_width=False)
 
 # ---------------- FOOTER ----------------
 footer = f"""
