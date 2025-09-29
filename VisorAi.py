@@ -125,25 +125,70 @@ if model is None:
     st.stop()
 
 # ---------------- DETECTION FUNCTION ----------------
+# ---------------- DETECTION FUNCTION ----------------
 def detect_and_visualize(image):
     image_np = np.array(image)
     image_bgr = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
     results = model(image_bgr, verbose=False)
-    img_with_boxes = results[0].plot(conf=True)
 
+    # Copy original image for drawing
+    img_with_boxes = image_bgr.copy()
     detected_classes = set()
+
     for box in results[0].boxes:
         confidence = box.conf[0].item()
         class_id = int(box.cls[0].item())
         class_name = model.names[class_id]
+
         if confidence > 0.3 and class_name in SOUND_FILES:
             detected_classes.add(class_name)
+
+            # Get bounding box coordinates
+            x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+
+            # Draw red bounding box (BGR: (0,0,255))
+            cv2.rectangle(img_with_boxes, (x1, y1), (x2, y2), (0, 0, 255), 3)
+
+            # --- Draw label with green background + white text ---
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            font_scale = 0.7   # slightly larger text
+            thickness = 2
+            padding = 5  # padding around text
+
+            # Get text size
+            (text_w, text_h), baseline = cv2.getTextSize(class_name, font, font_scale, thickness)
+
+            # Label position (just above the bounding box, but not outside the image)
+            y_label = max(y1 - 10, text_h + 10)
+
+            # Draw filled green rectangle for background with padding
+            cv2.rectangle(
+                img_with_boxes,
+                (x1, y_label - text_h - baseline - padding),
+                (x1 + text_w + padding * 2, y_label + baseline + padding),
+                (0, 200, 0),  # Darker green for better readability
+                -1
+            )
+
+            # Put white text on top of green background (with padding)
+            cv2.putText(
+                img_with_boxes,
+                class_name,
+                (x1 + padding, y_label + baseline),
+                font,
+                font_scale,
+                (255, 255, 255),  # White text
+                thickness,
+                cv2.LINE_AA  # Anti-aliased for smoothness
+            )
 
     label = list(detected_classes)[0] if detected_classes else "Unknown"
     new_detections = detected_classes - st.session_state.last_detected_classes
     st.session_state.last_detected_classes = detected_classes
 
     return img_with_boxes, label, new_detections
+
+
 
 # ---------------- IMAGE RESIZING ----------------
 def resize_image(image, max_width=800, max_height=600):
