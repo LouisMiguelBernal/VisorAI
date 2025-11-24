@@ -1,0 +1,35 @@
+# Train using all available images (train + valid)
+train:
+  - E:/visor model train/train/images
+
+# Validation set (can reuse valid set)
+val: E:/visor model train/valid/images
+
+test: E:/visor model train/test/images
+
+
+# Number of classes
+nc: 19
+
+# Class names
+names: [
+  'Bicycle Lane',
+  'Broken and Solid Yellow Lines',
+  'Bus Lane',
+  'Cats Eye',
+  'Continuity Lane',
+  'Double Solid Yellow or White Line',
+  'Holding Lane',
+  'Loading and Unloading Zone',
+  'Motorcycle Lane',
+  'No Loading and Unloading Curb',
+  'No Parking Curb',
+  'Parking Bay',
+  'Pavement Arrow',
+  'Pedestrian Lane',
+  'Railroad Crossing',
+  'Rumble Strips',
+  'Single Solid Line',
+  'Speed Limit',
+  'Transition Line'
+]
